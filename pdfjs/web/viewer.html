@@ -34,7 +34,20 @@ See https://github.com/adobe-type-tools/cmap-resources
     <link rel="stylesheet" href="viewer.css">
 
   <script src="viewer.mjs" type="module"></script>
-    <script src="https://hypothes.is/embed.js" async></script>
+    <script type="module">
+      // Load Hypothesis only after PDF.js has opened the PDF. If it starts first
+      // (e.g. from cache on reload), it fails because pdfDocument is still null.
+      const app = window.PDFViewerApplication;
+      const loadHypothesis = () => {
+        const script = document.createElement("script");
+        script.src = "https://hypothes.is/embed.js";
+        document.head.appendChild(script);
+      };
+      app.initializedPromise.then(() => {
+        if (app.pdfDocument) loadHypothesis();
+        else app.eventBus.on("documentloaded", loadHypothesis, { once: true });
+      });
+    </script>
   </head>
 
   <body tabindex="0">
