@@ -31,6 +31,19 @@
       height: 90vh;
       border: 1px solid #ccc;
     }
+    .slides summary {
+      max-width: 1000px;
+      margin: 0 auto 12px;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #f5f5f5;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .slides summary:hover { background: #ececec; }
+    .slides summary::after { content: " (click to view)"; font-weight: 400; color: #555; }
+    .slides[open] summary::after { content: " (click to hide)"; }
     .cite { max-width: 1000px; margin: 32px auto 0; }
     .cite h2 { font-size: 1.5em; margin-bottom: 8px; }
     .bib { position: relative; }
@@ -58,7 +71,7 @@
     /* Phones can't display embedded PDFs reliably, so link to the PDF instead. */
     @media (max-width: 768px) {
       h1 { font-size: 1.5em; }
-      .viewer { display: none; }
+      .slides { display: none; }
     }
   </style>
 </head>
@@ -81,7 +94,11 @@
   &nbsp;·&nbsp; Last updated: Oct 2026
 </p>
 
-<iframe class="viewer" src="slides/GMFF-slides.pdf#view=Fit" title="Generative Models: Foundations and Frontiers slides"></iframe>
+<!-- Collapsed by default so readers see the citation and comments below; the PDF loads only when opened. -->
+<details class="slides" ontoggle="const f = this.querySelector('iframe'); if (this.open && !f.src) f.src = f.dataset.src;">
+  <summary>Slides</summary>
+  <iframe class="viewer" data-src="slides/GMFF-slides.pdf#view=Fit" title="Generative Models: Foundations and Frontiers slides"></iframe>
+</details>
 
 <section class="cite" id="citation">
   <h2>Citation</h2>
